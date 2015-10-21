@@ -12,7 +12,10 @@ namespace Kernel.Aop
     {
         public void Intercept(IInvocation invocation)
         {
+            var att = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>();
+            att.FirstOrDefault()?.beforeAsepct();
             invocation.Proceed();
+            att.FirstOrDefault()?.afterAsepct();
             if (invocation.Method.Name.StartsWith("set_"))
             {
                 var notifyPropertyChangedObject = invocation.InvocationTarget as NotifyPropertyChangedObject;

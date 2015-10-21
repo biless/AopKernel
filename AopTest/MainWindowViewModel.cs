@@ -11,6 +11,7 @@ namespace AopTest
     {
         public virtual string Name { get; set; }
 
+        [TimeDifference]
         public virtual void changName(string name)
         {
             Name = name;
