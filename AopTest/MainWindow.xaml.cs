@@ -23,6 +23,12 @@ namespace AopTest
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = Kernel.Aop.AopFactory.CreateClassProxy<MainWindowViewModel>();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindowViewModel)?.changName(textBox_Copy.Text);
         }
     }
 }
