@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopTest", "AopTest\AopTest.csproj", "{73CB925E-ACA7-49FA-9C17-CB91F7F7E819}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel", "Kernel\Kernel.csproj", "{F3ECA4DE-963C-4718-8D8A-AF2DFA27F34E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73CB925E-ACA7-49FA-9C17-CB91F7F7E819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73CB925E-ACA7-49FA-9C17-CB91F7F7E819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73CB925E-ACA7-49FA-9C17-CB91F7F7E819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73CB925E-ACA7-49FA-9C17-CB91F7F7E819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3ECA4DE-963C-4718-8D8A-AF2DFA27F34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3ECA4DE-963C-4718-8D8A-AF2DFA27F34E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3ECA4DE-963C-4718-8D8A-AF2DFA27F34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3ECA4DE-963C-4718-8D8A-AF2DFA27F34E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
