@@ -12,15 +12,37 @@ namespace Kernel.Aop
     {
         public void Intercept(IInvocation invocation)
         {
-            var att = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>();
-            att.FirstOrDefault()?.beforeAsepct();
+            var att = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>().ToList();
+            attributeBeforeAsepct(att);
             invocation.Proceed();
-            att.FirstOrDefault()?.afterAsepct();
+            var task = invocation.ReturnValue as Task;
+
+            if (task == null)
+                attributeAfterAsepct(att);
+            else
+                attributeAfterAsepctTask(task,att);
+
             if (invocation.Method.Name.StartsWith("set_"))
             {
                 var notifyPropertyChangedObject = invocation.InvocationTarget as NotifyPropertyChangedObject;
                 notifyPropertyChangedObject?.onPropertyChanged(invocation.Method.Name.Substring(4));
             }
+        }
+
+        private void attributeBeforeAsepct(List<AsepctAttribute> asepctAttributes)
+        {
+            asepctAttributes.ForEach(attribute => attribute.beforeAsepct());
+        }
+
+        private void attributeAfterAsepctTask(Task task,List<AsepctAttribute> asepctAttributes)
+        {
+            task.ContinueWith(x => attributeAfterAsepct(asepctAttributes));
+        }
+
+        private void attributeAfterAsepct(List<AsepctAttribute> asepctAttributes)
+        {
+            asepctAttributes.Reverse();
+            asepctAttributes.ForEach(attribute => attribute.afterAsepct());
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AopTest
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel)?.changName(textBox_Copy.Text);
+            (DataContext as MainWindowViewModel)?.change(textBox_Copy.Text);
         }
     }
 }
