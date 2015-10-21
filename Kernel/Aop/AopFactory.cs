@@ -13,11 +13,6 @@ namespace Kernel.Aop
 
         static MethodInterceptor methodInterceptor = new MethodInterceptor();
 
-        //public static T CreateClassProxy<T>() where T : class
-        //{
-        //    return proxyGenerator.CreateClassProxy<T>(new MethodInterceptor());
-        //}
-
         public static T CreateClassProxy<T>(params object[] args) where T : class
         {
             return (T)proxyGenerator.CreateClassProxy(typeof(T), args, methodInterceptor);
