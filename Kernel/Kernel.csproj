@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aop\AhainOfResponsibility.cs" />
     <Compile Include="Aop\AopFactory.cs" />
     <Compile Include="Aop\AsepctAttribute.cs" />
     <Compile Include="Aop\MethodAsepctAroundEnum.cs" />
