@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Kernel.Aop
 {
-    public abstract class AsepctAttribute : Attribute 
+    public abstract class AsepctAttribute : Attribute
     {
+        public MethodAsepctAroundEnum methodAsepctAroundEnum = MethodAsepctAroundEnum.Around;
+
         public abstract void beforeAsepct();
 
         public abstract void afterAsepct();

@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Aop\AopFactory.cs" />
     <Compile Include="Aop\AsepctAttribute.cs" />
+    <Compile Include="Aop\MethodAsepctAroundEnum.cs" />
     <Compile Include="Aop\MethodInterceptor.cs" />
     <Compile Include="MVVM\CommandObject.cs" />
     <Compile Include="MVVM\NotifyPropertyChangedObject.cs" />

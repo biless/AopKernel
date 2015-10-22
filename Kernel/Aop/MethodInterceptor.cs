@@ -25,13 +25,18 @@ namespace Kernel.Aop
             if (invocation.Method.Name.StartsWith("set_"))
             {
                 var notifyPropertyChangedObject = invocation.InvocationTarget as NotifyPropertyChangedObject;
+                // ReSharper disable once ExplicitCallerInfoArgument
                 notifyPropertyChangedObject?.onPropertyChanged(invocation.Method.Name.Substring(4));
             }
         }
 
         private void attributeBeforeAsepct(List<AsepctAttribute> asepctAttributes)
         {
-            asepctAttributes.ForEach(attribute => attribute.beforeAsepct());
+            asepctAttributes.ForEach(attribute =>
+            {
+                if (attribute.methodAsepctAroundEnum == MethodAsepctAroundEnum.After) return;
+                attribute.beforeAsepct();
+            });
         }
 
         private void attributeAfterAsepctTask(Task task,List<AsepctAttribute> asepctAttributes)
@@ -42,7 +47,11 @@ namespace Kernel.Aop
         private void attributeAfterAsepct(List<AsepctAttribute> asepctAttributes)
         {
             asepctAttributes.Reverse();
-            asepctAttributes.ForEach(attribute => attribute.afterAsepct());
+            asepctAttributes.ForEach(attribute =>
+            {
+                if (attribute.methodAsepctAroundEnum == MethodAsepctAroundEnum.Before) return;
+                attribute.afterAsepct();
+            });
         }
     }
 }

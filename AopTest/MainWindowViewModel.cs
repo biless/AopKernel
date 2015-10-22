@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kernel.Aop;
 
 namespace AopTest
 {
@@ -11,7 +12,7 @@ namespace AopTest
     {
         public virtual string Name { get; set; }
 
-        [OhterAsepct]
+        [OhterAsepct(methodAsepctAroundEnum = MethodAsepctAroundEnum.Before)]
         [TimeDifference]
         public virtual async Task changName(string name)
         {
