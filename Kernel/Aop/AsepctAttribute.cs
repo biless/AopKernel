@@ -9,6 +9,7 @@ namespace Kernel.Aop
 {
     public abstract class AsepctAttribute : Attribute 
     {
+        public int index { set; get; }
         public abstract void beforeAsepct();
 
         public abstract void afterAsepct();
