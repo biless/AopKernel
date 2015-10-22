@@ -11,8 +11,8 @@ namespace AopTest
     {
         public virtual string Name { get; set; }
 
-        [OhterAsepct(index =1)]
-        [TimeDifference(index =1)]
+        [OhterAsepct]
+        [TimeDifference]
         public virtual async Task changName(string name)
         {
             await Task.Delay(3000); //延时3s

@@ -31,7 +31,7 @@ namespace Kernel.Aop
 
         private void attributeBeforeAsepct(List<AsepctAttribute> asepctAttributes)
         {
-            asepctAttributes.OrderBy(p=>p.index).ToList().ForEach(attribute => attribute.beforeAsepct());
+            asepctAttributes.ForEach(attribute => attribute.beforeAsepct());
         }
 
         private void attributeAfterAsepctTask(Task task,List<AsepctAttribute> asepctAttributes)
@@ -42,7 +42,7 @@ namespace Kernel.Aop
         private void attributeAfterAsepct(List<AsepctAttribute> asepctAttributes)
         {
             asepctAttributes.Reverse();
-            asepctAttributes.OrderBy(p => p.index).ToList().ForEach(attribute => attribute.afterAsepct());
+            asepctAttributes.ForEach(attribute => attribute.afterAsepct());
         }
     }
 }
