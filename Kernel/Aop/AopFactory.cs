@@ -9,9 +9,9 @@ namespace Kernel.Aop
 {
     public class AopFactory
     {
-        static ProxyGenerator proxyGenerator = new ProxyGenerator();
+        static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
 
-        static MethodInterceptor methodInterceptor = new MethodInterceptor();
+        static readonly MethodInterceptor methodInterceptor = new MethodInterceptor();
 
         public static T CreateClassProxy<T>(params object[] args) where T : class
         {

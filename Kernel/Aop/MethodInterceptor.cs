@@ -12,14 +12,27 @@ namespace Kernel.Aop
     {
         private IInvocation invocation;
 
+        private List<AsepctAttribute> asepctAttributes;
+
+        private List<TryCatchAsepctAttribute> tryCatchAsepctAttributes;
+
         public void Intercept(IInvocation invocation)
         {
             this.invocation = invocation;
+            asepctAttributes = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>().ToList();
+            tryCatchAsepctAttributes = invocation.Method.GetCustomAttributes(typeof(TryCatchAsepctAttribute), true).Cast<TryCatchAsepctAttribute>().ToList();
 
             var ahainOfResponsibility = new AhainOfResponsibility {exectueNext = x => invocation.Proceed()};
 
-            ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) {exectueNext = asepct};
+            //普通切面
+            if(asepctAttributes.Any())
+                ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) {exectueNext = asepct};
 
+            //异常切面
+            if(tryCatchAsepctAttributes.Any())
+                ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) { exectueNext = tryCatchAsepct };
+
+            //开始执行
             ahainOfResponsibility.exectue();
 
             if (invocation.Method.Name.StartsWith("set_"))
@@ -30,9 +43,23 @@ namespace Kernel.Aop
             }
         }
 
-        private void tryCatchAsepct(AhainOfResponsibility ahainOfResponsibility)
+        private async void tryCatchAsepct(AhainOfResponsibility ahainOfResponsibility)
         {
+            var attributes = tryCatchAsepctAttributes;
 
+            try
+            {
+                tryCatchAttributeBeforeAsepct(attributes);
+                ahainOfResponsibility.exectue();
+                var task = invocation.ReturnValue as Task;
+                if (task != null)
+                    await task;
+                tryCatchAttributeAfterAsepct(attributes);
+            }
+            catch
+            {
+                catchAsepct(attributes);
+            }
         }
 
         private void argumentJudgementAsepct(AhainOfResponsibility ahainOfResponsibility)
@@ -40,26 +67,55 @@ namespace Kernel.Aop
 
         }
 
-        private void asepct(AhainOfResponsibility ahainOfResponsibility)
+        private async void asepct(AhainOfResponsibility ahainOfResponsibility)
         {
-            var att = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>().ToList();
-            attributeBeforeAsepct(att);
+            var attributes = asepctAttributes;
 
+            attributeBeforeAsepct(attributes);
             ahainOfResponsibility.exectue();
-
             var task = invocation.ReturnValue as Task;
-            if (task == null)
-                attributeAfterAsepct(att);
-            else
-                attributeAfterAsepctTask(task, att);
+            if (task != null)
+                await task;
+            attributeAfterAsepct(attributes);
         }
 
+        private void catchAsepct(List<TryCatchAsepctAttribute> asepctAttributes)
+        {
+            asepctAttributes.ForEach(attribute =>
+            {
+                attribute.catchAsepct();
+            });
+        }
+
+        private void tryCatchAttributeBeforeAsepct(List<TryCatchAsepctAttribute> asepctAttributes)
+        {
+            asepctAttributes.ForEach(attribute =>
+            {
+                if (attribute.methodAsepctEnum == MethodAsepctEnum.After) return;
+                attribute.beforeAsepct();
+            });
+        }
+
+        private void tryCatchAattributeAfterAsepctTask(Task task, List<TryCatchAsepctAttribute> asepctAttributes)
+        {
+            task.ContinueWith(x => tryCatchAttributeAfterAsepct(asepctAttributes));
+        }
+
+        private void tryCatchAttributeAfterAsepct(List<TryCatchAsepctAttribute> asepctAttributes)
+        {
+            asepctAttributes.Reverse();
+            asepctAttributes.ForEach(attribute =>
+            {
+                if (attribute.methodAsepctEnum == MethodAsepctEnum.Before) return;
+                attribute.afterAsepct();
+            });
+        }
 
         private void attributeBeforeAsepct(List<AsepctAttribute> asepctAttributes)
         {
             asepctAttributes.ForEach(attribute =>
             {
-                if (attribute.methodAsepctAroundEnum == MethodAsepctAroundEnum.After) return;
+                if (attribute.methodAsepctEnum == MethodAsepctEnum.After) return;
                 attribute.beforeAsepct();
             });
         }
@@ -74,7 +130,7 @@ namespace Kernel.Aop
             asepctAttributes.Reverse();
             asepctAttributes.ForEach(attribute =>
             {
-                if (attribute.methodAsepctAroundEnum == MethodAsepctAroundEnum.Before) return;
+                if (attribute.methodAsepctEnum == MethodAsepctEnum.Before) return;
                 attribute.afterAsepct();
             });
         }

@@ -9,12 +9,12 @@ namespace Kernel.Aop
     /// <summary>
     /// 方法切面
     /// </summary>
-    public enum MethodAsepctAroundEnum
+    public enum MethodAsepctEnum
     {
         /// <summary>
-        /// 围绕
+        /// 两者都要
         /// </summary>
-        Around,
+        Both,
         /// <summary>
         /// 前切面
         /// </summary>

@@ -30,5 +30,19 @@ namespace AopTest
         {
             (DataContext as MainWindowViewModel)?.change(textBox_Copy.Text);
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var task = F();
+            task.ContinueWith(x => Console.WriteLine("1"));
+            task.ContinueWith(x => Console.WriteLine("2"));
+            task.ContinueWith(x => Console.WriteLine("3"));
+        }
+
+        private async Task F()
+        {
+            await Task.Delay(1000);
+            Console.WriteLine("Finish");
+        }
     }
 }

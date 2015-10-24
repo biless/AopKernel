@@ -12,12 +12,15 @@ namespace AopTest
     {
         public virtual string Name { get; set; }
 
-        [OhterAsepct(methodAsepctAroundEnum = MethodAsepctAroundEnum.Before)]
+        
+        [OhterAsepct]
         [TimeDifference]
+        [Log]
         public virtual async Task changName(string name)
         {
             await Task.Delay(3000); //延时3s
             Name = name;
+            throw new TaskCanceledException();
         }
 
         public void change(string name)
