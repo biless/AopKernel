@@ -52,9 +52,15 @@ namespace Kernel.Aop
                 tryCatchAttributeBeforeAsepct(attributes);
                 ahainOfResponsibility.exectue();
                 var task = invocation.ReturnValue as Task;
-                if (task != null)
+                if (task == null)
+                {
+                    tryCatchAttributeAfterAsepct(attributes);
+                }
+                else
+                {
                     await task;
-                tryCatchAttributeAfterAsepct(attributes);
+                    tryCatchAattributeAfterAsepctTask(task, attributes);
+                }
             }
             catch
             {
@@ -67,16 +73,17 @@ namespace Kernel.Aop
 
         }
 
-        private async void asepct(AhainOfResponsibility ahainOfResponsibility)
+        private void asepct(AhainOfResponsibility ahainOfResponsibility)
         {
             var attributes = asepctAttributes;
 
             attributeBeforeAsepct(attributes);
             ahainOfResponsibility.exectue();
             var task = invocation.ReturnValue as Task;
-            if (task != null)
-                await task;
-            attributeAfterAsepct(attributes);
+            if (task == null)
+                attributeAfterAsepct(attributes);
+            else
+                attributeAfterAsepctTask(task, attributes);
         }
 
         private void catchAsepct(List<TryCatchAsepctAttribute> asepctAttributes)
@@ -98,7 +105,7 @@ namespace Kernel.Aop
 
         private void tryCatchAattributeAfterAsepctTask(Task task, List<TryCatchAsepctAttribute> asepctAttributes)
         {
-            task.ContinueWith(x => tryCatchAttributeAfterAsepct(asepctAttributes));
+            task.ContinueWith(x => tryCatchAttributeAfterAsepct(asepctAttributes), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         private void tryCatchAttributeAfterAsepct(List<TryCatchAsepctAttribute> asepctAttributes)
@@ -122,7 +129,7 @@ namespace Kernel.Aop
 
         private void attributeAfterAsepctTask(Task task, List<AsepctAttribute> asepctAttributes)
         {
-            task.ContinueWith(x => attributeAfterAsepct(asepctAttributes));
+            task.ContinueWith(x => attributeAfterAsepct(asepctAttributes), TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
         private void attributeAfterAsepct(List<AsepctAttribute> asepctAttributes)

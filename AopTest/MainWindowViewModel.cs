@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Kernel.Aop;
 
@@ -20,12 +21,12 @@ namespace AopTest
         {
             await Task.Delay(3000); //延时3s
             Name = name;
-            throw new TaskCanceledException();
+            //throw new TaskCanceledException();
         }
 
         public void change(string name)
         {
-            changName(name);
+             changName(name);
         }
     }
 }
