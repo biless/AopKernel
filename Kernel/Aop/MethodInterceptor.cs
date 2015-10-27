@@ -16,11 +16,14 @@ namespace Kernel.Aop
 
         private List<TryCatchAsepctAttribute> tryCatchAsepctAttributes;
 
+        private List<IfElseAsepctAttribute> ifElseAsepctAttributes;
+
         public void Intercept(IInvocation invocation)
         {
             this.invocation = invocation;
             asepctAttributes = invocation.Method.GetCustomAttributes(typeof(AsepctAttribute), true).Cast<AsepctAttribute>().ToList();
             tryCatchAsepctAttributes = invocation.Method.GetCustomAttributes(typeof(TryCatchAsepctAttribute), true).Cast<TryCatchAsepctAttribute>().ToList();
+            ifElseAsepctAttributes = invocation.Method.GetCustomAttributes(typeof(IfElseAsepctAttribute), true).Cast<IfElseAsepctAttribute>().ToList();
 
             var ahainOfResponsibility = new AhainOfResponsibility {exectueNext = x => invocation.Proceed()};
 
@@ -28,8 +31,12 @@ namespace Kernel.Aop
             if(asepctAttributes.Any())
                 ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) {exectueNext = asepct};
 
+            //是否执行函数切面
+            if(ifElseAsepctAttributes.Any())
+                ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) { exectueNext = ifElseAsepct };
+
             //异常切面
-            if(tryCatchAsepctAttributes.Any())
+            if (tryCatchAsepctAttributes.Any())
                 ahainOfResponsibility = new AhainOfResponsibility(ahainOfResponsibility) { exectueNext = tryCatchAsepct };
 
             //开始执行
@@ -43,15 +50,27 @@ namespace Kernel.Aop
             }
         }
 
+        private void ifElseAsepct(AhainOfResponsibility ahainOfResponsibility)
+        {
+            foreach (var attribute in ifElseAsepctAttributes)
+            {
+                if (attribute.check(invocation.Arguments)) continue;
+                attribute.checkForErrors();
+                return;
+            }
+            ahainOfResponsibility.exectue();
+        }
+
+
         private async void tryCatchAsepct(AhainOfResponsibility ahainOfResponsibility)
         {
             var attributes = tryCatchAsepctAttributes;
-
+            var invocationAsepct = invocation;
             try
             {
                 tryCatchAttributeBeforeAsepct(attributes);
                 ahainOfResponsibility.exectue();
-                var task = invocation.ReturnValue as Task;
+                var task = invocationAsepct.ReturnValue as Task;
                 if (task == null)
                 {
                     tryCatchAttributeAfterAsepct(attributes);
@@ -76,10 +95,10 @@ namespace Kernel.Aop
         private void asepct(AhainOfResponsibility ahainOfResponsibility)
         {
             var attributes = asepctAttributes;
-
+            var invocationAsepct = invocation;
             attributeBeforeAsepct(attributes);
             ahainOfResponsibility.exectue();
-            var task = invocation.ReturnValue as Task;
+            var task = invocationAsepct.ReturnValue as Task;
             if (task == null)
                 attributeAfterAsepct(attributes);
             else

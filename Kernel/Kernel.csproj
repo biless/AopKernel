@@ -51,6 +51,7 @@
     <Compile Include="Aop\MethodAsepctEnum.cs" />
     <Compile Include="Aop\MethodInterceptor.cs" />
     <Compile Include="Aop\TryCatchAsepctAttribute.cs" />
+    <Compile Include="Aop\IfElseAsepctAttribute.cs" />
     <Compile Include="MVVM\CommandObject.cs" />
     <Compile Include="MVVM\NotifyPropertyChangedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
