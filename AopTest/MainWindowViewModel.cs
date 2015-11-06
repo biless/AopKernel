@@ -18,12 +18,13 @@ namespace AopTest
         {
             //await Task.Delay(3000); //延时3s
             Name = name;
-            //throw new TaskCanceledException();
+            throw new TaskCanceledException();
         }
 
         [OhterAsepct]
         [TimeDifference]
         [Log]
+        [CheckErrors]
         public virtual async Task change(string name)
         {
              await changName(name);
