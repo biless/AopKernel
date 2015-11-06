@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Kernel.Aop;
+using Kernel.Aop.Interceptor;
 
 namespace AopTest
 {
-    [MethodInterceptor]
+    [Aop]
     public class MainWindowViewModel : NotifyPropertyChangedObject
     {
         public virtual string Name { get; set; }

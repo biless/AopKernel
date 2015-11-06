@@ -14,7 +14,7 @@ namespace Kernel.Aop
     {
         static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
 
-        static readonly MethodInterceptor methodInterceptor = new MethodInterceptor();
+        static readonly Interceptor.Aop Aop = new Interceptor.Aop();
 
         public static T CreateClassProxy<T>(params object[] args) where T : class
         {

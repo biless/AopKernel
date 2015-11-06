@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Kernel.Aop;
+using Kernel.Aop.Interceptor;
 
 namespace Kernel.MVVM
 {

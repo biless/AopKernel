@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using Kernel.MVVM;
 
-namespace Kernel.Aop
+namespace Kernel.Aop.Interceptor
 {
-    public class MethodInterceptor : Attribute, IInterceptor
+    public class Aop : Attribute, IInterceptor
     {
         private IInvocation invocation;
 
