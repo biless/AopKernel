@@ -8,7 +8,7 @@ using Kernel.MVVM;
 
 namespace Kernel.Aop
 {
-    class MethodInterceptor : IInterceptor
+    public class MethodInterceptor : Attribute, IInterceptor
     {
         private IInvocation invocation;
 
@@ -41,13 +41,6 @@ namespace Kernel.Aop
 
             //开始执行
             ahainOfResponsibility.exectue();
-
-            if (invocation.Method.Name.StartsWith("set_"))
-            {
-                var notifyPropertyChangedObject = invocation.InvocationTarget as NotifyPropertyChangedObject;
-                // ReSharper disable once ExplicitCallerInfoArgument
-                notifyPropertyChangedObject?.onPropertyChanged(invocation.Method.Name.Substring(4));
-            }
         }
 
         private void ifElseAsepct(AhainOfResponsibility ahainOfResponsibility)

@@ -11,7 +11,7 @@ namespace AopTest
     {
         public override bool check(params object[] args)
         {
-            return false;
+            return true;
         }
 
         public override void checkForErrors()

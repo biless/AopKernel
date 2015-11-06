@@ -50,6 +50,7 @@
     <Compile Include="Aop\AsepctAttribute.cs" />
     <Compile Include="Aop\MethodAsepctEnum.cs" />
     <Compile Include="Aop\MethodInterceptor.cs" />
+    <Compile Include="Aop\NotifyInterceptor.cs" />
     <Compile Include="Aop\TryCatchAsepctAttribute.cs" />
     <Compile Include="Aop\IfElseAsepctAttribute.cs" />
     <Compile Include="MVVM\CommandObject.cs" />

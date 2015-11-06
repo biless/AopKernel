@@ -9,21 +9,21 @@ using Kernel.Aop;
 
 namespace AopTest
 {
+    [MethodInterceptor]
     public class MainWindowViewModel : NotifyPropertyChangedObject
     {
         public virtual string Name { get; set; }
 
         public virtual async Task changName(string name)
         {
-            await Task.Delay(3000); //延时3s
+            //await Task.Delay(3000); //延时3s
             Name = name;
-            throw new TaskCanceledException();
+            //throw new TaskCanceledException();
         }
 
         [OhterAsepct]
         [TimeDifference]
         [Log]
-        [CheckErrors]
         public virtual async Task change(string name)
         {
              await changName(name);

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
+using Kernel.MVVM;
 
 namespace Kernel.Aop
 {
@@ -15,7 +18,8 @@ namespace Kernel.Aop
 
         public static T CreateClassProxy<T>(params object[] args) where T : class
         {
-            return (T)proxyGenerator.CreateClassProxy(typeof(T), args, methodInterceptor);
+            var xx = typeof (T).GetCustomAttributes(typeof(IInterceptor),true).Cast<IInterceptor>().ToArray();
+            return (T)proxyGenerator.CreateClassProxy(typeof(T), args, xx);
         }
     }
 }
